@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeshChile - Únete a nuestra organización GitHub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #004621 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Particles canvas background */
+        #particles-background {
+            position: fixed;
+            display: block;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow:
+                    0 8px 32px rgba(31, 38, 135, 0.37),
+                    0 0 0 1px rgba(255, 255, 255, 0.18);
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            margin: 1rem;
+        }
+
+        .logo {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            overflow: hidden;
+            background: white;
+        }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        h1 {
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: #667eea;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .description {
+            color: #4a5568;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .info-box {
+            background: rgba(102, 126, 234, 0.1);
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: #4a5568;
+        }
+
+        .teams-info {
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .teams-info h3 {
+            color: #2d3748;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .team-card {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .team-badge {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .team-badge.community {
+            background: linear-gradient(135deg, #48bb78, #38a169);
+            color: white;
+        }
+
+        .team-badge.collaborator {
+            background: linear-gradient(135deg, #ed8936, #dd6b20);
+            color: white;
+        }
+
+        .team-details strong {
+            color: #2d3748;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .team-details p {
+            color: #718096;
+            font-size: 0.85rem;
+            margin: 0;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #2d3748;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            background: white;
+        }
+
+        /* reCAPTCHA container */
+        .recaptcha-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            transform: scale(0.9);
+            transform-origin: center;
+        }
+
+        @media (max-width: 480px) {
+            .recaptcha-container {
+                transform: scale(0.8);
+            }
+        }
+
+        .btn {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            background: linear-gradient(135deg, #004621, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn.loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            margin: auto;
+            border: 2px solid transparent;
+            border-top-color: #ffffff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .alert.success {
+            background: #f0fff4;
+            border: 1px solid #9ae6b4;
+            color: #276749;
+        }
+
+        .alert.error {
+            background: #fed7d7;
+            border: 1px solid #feb2b2;
+            color: #c53030;
+        }
+
+        .footer {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .footer-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #764ba2;
+        }
+
+        /* Modal/Popup styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 400px;
+            width: 90%;
+            margin: 1rem;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            transform: scale(0.9);
+            animation: modalIn 0.3s ease forwards;
+            position: relative;
+        }
+
+        @keyframes modalIn {
+            to { transform: scale(1); }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #718096;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .modal-close:hover {
+            background: #f7fafc;
+            color: #2d3748;
+        }
+
+        .modal h3 {
+            color: #2d3748;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .modal p {
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal .btn {
+            margin-bottom: 0;
+        }
+
+        /* User Profile Preview */
+        .user-preview {
+            position: absolute;
+            bottom: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            z-index: 10;
+            display: none;
+            animation: slideUp 0.2s ease;
+        }
+
+        .user-preview.show {
+            display: block;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .user-preview-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid #e2e8f0;
+        }
+
+        .user-info h4 {
+            margin: 0 0 0.25rem 0;
+            color: #2d3748;
+            font-size: 1rem;
+        }
+
+        .user-info p {
+            margin: 0;
+            color: #718096;
+            font-size: 0.85rem;
+        }
+
+        .user-stats {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+            font-size: 0.75rem;
+            color: #718096;
+        }
+
+        .user-preview.loading {
+            text-align: center;
+            color: #718096;
+            font-style: italic;
+        }
+
+        .user-preview.error {
+            text-align: center;
+            color: #e53e3e;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 2rem 1.5rem;
+                margin: 0.5rem;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="logo">
+        <img src="https://cdn.jsdelivr.net/gh/Mesh-Chile/assets/logos/logo-color.png" alt="MeshChile Logo" />
+    </div>
+
+    <h1>MeshChile</h1>
+    <div class="subtitle">Comunidad Chilena de Meshtastic</div>
+    <p class="description">
+        Únete a nuestra organización de GitHub y forma parte de la primera comunidad chilena de Meshtastic.
+        Comenzarás en el equipo <strong>Comunidad</strong> y podrás ascender a <strong>Colaborador</strong> creando proyectos.
+    </p>
+
+    <div class="info-box">
+        💡 <strong>¿Qué es Meshtastic?</strong><br>
+        Una red de comunicaciones off-grid usando dispositivos LoRa de bajo costo para crear redes mesh descentralizadas.
+    </div>
+
+    <div class="teams-info">
+        <h3>🏆 Sistema de Equipos</h3>
+        <div class="team-card">
+            <div class="team-badge community">👥</div>
+            <div class="team-details">
+                <strong>Comunidad</strong>
+                <p>Punto de entrada para todos los nuevos miembros</p>
+            </div>
+        </div>
+        <div class="team-card">
+            <div class="team-badge collaborator">⭐</div>
+            <div class="team-details">
+                <strong>Colaboradores</strong>
+                <p>Promoción automática al crear o contribuir a repositorios</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="alert-container"></div>
+
+    <form id="invite-form">
+        <div class="form-group">
+            <label for="github-username">Nombre de usuario de GitHub</label>
+            <input
+                    type="text"
+                    id="github-username"
+                    name="github-username"
+                    placeholder="ej: tu-usuario"
+                    required
+                    autocomplete="username"
+            >
+            <small style="color: #718096; font-size: 0.8rem; margin-top: 0.25rem; display: block;">
+                Te unirás automáticamente al equipo <strong>Comunidad</strong>
+            </small>
+            <!-- User Preview will be positioned here -->
+            <div class="user-preview" id="user-preview"></div>
+        </div>
+
+        <button type="submit" class="btn" id="submit-btn">
+            <span id="btn-text">Solicitar invitación</span>
+        </button>
+    </form>
+
+    <div class="footer">
+        <p style="color: #718096; font-size: 0.85rem;">
+            Al solicitar una invitación, aceptas seguir nuestro código de conducta y las políticas de la comunidad.
+        </p>
+
+        <div class="footer-links">
+            <a href="https://github.com/Mesh-Chile" target="_blank">GitHub</a>
+            <a href="https://MeshChile.cl" target="_blank">MeshChile.cl</a>
+            <a href="https://links.meshchile.cl" target="_blank">Contacto</a>
+        </div>
+
+        <p style="color: #718096; font-size: 0.8rem; margin-top: 1rem; text-align: center;">
+            <strong>Desarrollado con ❤️ por <a href="https://github.com/raztor" target="_blank" style="color: #667eea; text-decoration: none;">Raztor</a> para la comunidad <a href="https://links.meshchile.cl" target="_blank" style="color: #667eea; text-decoration: none;">MeshChile</a></strong>
+        </p>
+    </div>
+</div>
+
+<!-- Success Modal -->
+<div class="modal-overlay" id="success-modal">
+    <div class="modal">
+        <button class="modal-close" onclick="closeModal('success-modal')">&times;</button>
+        <h3>🎉 ¡Invitación enviada!</h3>
+        <p>Hemos enviado una invitación a tu cuenta de GitHub. Para completar tu registro:</p>
+        <ol style="text-align: left; margin-left: 1rem; color: #4a5568;">
+            <li><strong>Revisa tu email</strong> (incluyendo spam)</li>
+            <li><strong>Acepta la invitación</strong> de GitHub</li>
+            <li><strong>¡Bienvenido a MeshChile!</strong> 🚀</li>
+        </ol>
+        <p style="font-size: 0.9rem; color: #718096; margin-top: 1rem;">
+            Te unirás automáticamente al equipo <strong>Comunidad</strong>. Crea proyectos para ascender a <strong>Colaborador</strong>.
+        </p>
+        <button class="btn" onclick="closeModal('success-modal')" style="margin-top: 1rem;">
+            Entendido
+        </button>
+    </div>
+</div>
+
+<!-- Particles canvas - debe ser el último elemento del body -->
+<canvas id="particles-background"></canvas>
+
+<!-- Usar particles.js desde la ruta local -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/particlesjs/2.2.3/particles.min.js"></script>
+
+<script>
+    // Función para inicializar particles.js separada del código principal
+    function initParticles() {
+        console.log('🎨 Inicializando particles.js...');
+
+        // Verificar que Particles esté disponible (esta librería usa 'Particles', no 'particlesJS')
+        if (typeof Particles === 'undefined') {
+            console.error('❌ Particles.js no está cargado');
+            return;
+        }
+
+        try {
+            // Esta librería usa Particles.init() en lugar de particlesJS()
+            Particles.init({
+                selector: '#particles-background',
+                maxParticles: 80,
+                speed: 0.5,
+                color: '#ffffff',
+                connectParticles: true,
+                minDistance: 120,
+                responsive: [
+                    {
+                        breakpoint: 768,
+                        options: {
+                            maxParticles: 50,
+                            connectParticles: false
+                        }
+                    }
+                ]
+            });
+            console.log('✅ Particles.js inicializado correctamente');
+        } catch (error) {
+            console.error('❌ Error inicializando particles.js:', error);
+        }
+    }
+
+    // Configuración (se carga dinámicamente del backend)
+    const CONFIG = {
+        GITHUB_ORG: 'Mesh-Chile',
+        BACKEND_URL: '/api',
+        RECAPTCHA_SITE_KEY: null // Se carga desde el backend
+    };
+
+    class GitHubInviteApp {
+        constructor() {
+            this.form = document.getElementById('invite-form');
+            this.usernameInput = document.getElementById('github-username');
+            this.submitBtn = document.getElementById('submit-btn');
+            this.btnText = document.getElementById('btn-text');
+            this.alertContainer = document.getElementById('alert-container');
+            this.userPreview = document.getElementById('user-preview');
+
+            this.debounceTimer = null;
+            this.currentUser = null;
+            this.recaptchaToken = null;
+            this.configLoaded = false;
+            this.recaptchaLoaded = false;
+
+            this.init();
+        }
+
+        async init() {
+            // Cargar configuración del backend
+            await this.loadConfig();
+
+            // Cargar reCAPTCHA después de obtener la site key
+            await this.loadRecaptcha();
+
+            // Inicializar event listeners
+            this.form.addEventListener('submit', (e) => this.handleSubmit(e));
+            this.usernameInput.addEventListener('input', (e) => this.handleUsernameInput(e));
+            this.usernameInput.addEventListener('blur', () => this.hideUserPreview());
+            this.usernameInput.addEventListener('focus', () => {
+                if (this.currentUser) this.showUserPreview();
+            });
+
+            // Close modal when clicking overlay
+            document.addEventListener('click', (e) => {
+                if (e.target.classList.contains('modal-overlay')) {
+                    this.closeModal(e.target.id);
+                }
+            });
+        }
+
+        async loadConfig() {
+            try {
+                const response = await fetch(`${CONFIG.BACKEND_URL}/config`);
+
+                if (!response.ok) {
+                    throw new Error('No se pudo cargar la configuración');
+                }
+
+                const config = await response.json();
+                CONFIG.RECAPTCHA_SITE_KEY = config.recaptchaSiteKey;
+                CONFIG.GITHUB_ORG = config.githubOrg;
+
+                this.configLoaded = true;
+                console.log('✅ Configuración cargada correctamente');
+
+            } catch (error) {
+                console.error('❌ Error cargando configuración:', error);
+                this.showAlert('Error de configuración. Por favor recarga la página.', 'error');
+            }
+        }
+
+        async loadRecaptcha() {
+            if (!this.configLoaded || !CONFIG.RECAPTCHA_SITE_KEY) {
+                console.error('❌ No se puede cargar reCAPTCHA sin la site key');
+                return;
+            }
+
+            try {
+                // Crear y cargar script de reCAPTCHA dinámicamente
+                const script = document.createElement('script');
+                script.src = `https://www.google.com/recaptcha/api.js?render=${CONFIG.RECAPTCHA_SITE_KEY}`;
+                script.async = true;
+                script.defer = true;
+
+                // Promesa para esperar a que cargue
+                const loadPromise = new Promise((resolve, reject) => {
+                    script.onload = () => {
+                        window.grecaptcha.ready(() => {
+                            this.recaptchaLoaded = true;
+                            console.log('✅ reCAPTCHA v3 cargado correctamente');
+                            resolve();
+                        });
+                    };
+                    script.onerror = () => reject(new Error('Error cargando reCAPTCHA'));
+                });
+
+                document.head.appendChild(script);
+                await loadPromise;
+
+            } catch (error) {
+                console.error('❌ Error cargando reCAPTCHA:', error);
+                this.showAlert('Error cargando verificación. Por favor recarga la página.', 'error');
+            }
+        }
+
+        handleUsernameInput(e) {
+            const username = e.target.value.trim();
+
+            // Clear previous timer
+            if (this.debounceTimer) {
+                clearTimeout(this.debounceTimer);
+            }
+
+            // Hide preview if empty
+            if (!username) {
+                this.hideUserPreview();
+                this.clearAlerts();
+                return;
+            }
+
+            // Validate format
+            if (!/^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i.test(username)) {
+                this.hideUserPreview();
+                if (username.length > 2) {
+                    this.showAlert('El nombre de usuario de GitHub no es válido', 'error');
+                }
+                return;
+            }
+
+            this.clearAlerts();
+
+            // Debounce user lookup
+            this.debounceTimer = setTimeout(() => {
+                this.fetchUserPreview(username);
+            }, 500);
+        }
+
+        async fetchUserPreview(username) {
+            this.showUserPreviewLoading();
+
+            try {
+                const response = await fetch(`https://api.github.com/users/${username}`);
+
+                if (!response.ok) {
+                    if (response.status === 404) {
+                        this.showUserPreviewError('Usuario no encontrado en GitHub');
+                    } else {
+                        this.showUserPreviewError('Error al verificar usuario');
+                    }
+                    return;
+                }
+
+                const userData = await response.json();
+                this.currentUser = userData;
+                this.showUserPreviewSuccess(userData);
+
+            } catch (error) {
+                console.error('Error fetching user:', error);
+                this.showUserPreviewError('Error de conexión');
+            }
+        }
+
+        showUserPreviewLoading() {
+            this.userPreview.className = 'user-preview show loading';
+            this.userPreview.innerHTML = '🔍 Verificando usuario...';
+        }
+
+        showUserPreviewError(message) {
+            this.userPreview.className = 'user-preview show error';
+            this.userPreview.innerHTML = `❌ ${message}`;
+            this.currentUser = null;
+        }
+
+        showUserPreviewSuccess(user) {
+            this.userPreview.className = 'user-preview show';
+            this.userPreview.innerHTML = `
+                    <div class="user-preview-content">
+                        <img src="${user.avatar_url}" alt="${user.login}" class="user-avatar">
+                        <div class="user-info">
+                            <h4>${user.name || user.login}</h4>
+                            <p>@${user.login}</p>
+                            ${user.bio ? `<p style="font-size: 0.8rem; margin-top: 0.25rem;">${user.bio}</p>` : ''}
+                            <div class="user-stats">
+                                <span>📍 ${user.location || 'Sin ubicación'}</span>
+                                <span>📊 ${user.public_repos} repos</span>
+                                <span>👥 ${user.followers} seguidores</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+        }
+
+        showUserPreview() {
+            this.userPreview.classList.add('show');
+        }
+
+        hideUserPreview() {
+            setTimeout(() => {
+                this.userPreview.classList.remove('show');
+            }, 200);
+        }
+
+        async handleSubmit(e) {
+            e.preventDefault();
+
+            const username = this.usernameInput.value.trim();
+
+            if (!username) {
+                this.showAlert('Por favor ingresa tu nombre de usuario de GitHub', 'error');
+                return;
+            }
+
+            if (!/^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i.test(username)) {
+                this.showAlert('El nombre de usuario de GitHub no es válido', 'error');
+                return;
+            }
+
+            if (!this.currentUser) {
+                this.showAlert('Por favor espera a que se verifique el usuario', 'error');
+                return;
+            }
+
+            // Get reCAPTCHA v3 token
+            await this.getReCaptchaToken();
+        }
+
+        async getReCaptchaToken() {
+            try {
+                if (!this.recaptchaLoaded || !window.grecaptcha) {
+                    throw new Error('reCAPTCHA no está cargado. Por favor recarga la página.');
+                }
+
+                if (!CONFIG.RECAPTCHA_SITE_KEY) {
+                    throw new Error('Site Key de reCAPTCHA no está configurada');
+                }
+
+                this.setLoading(true);
+
+                const token = await window.grecaptcha.execute(CONFIG.RECAPTCHA_SITE_KEY, {
+                    action: 'github_invite'
+                });
+
+                this.recaptchaToken = token;
+                await this.sendInvite(this.usernameInput.value.trim());
+
+            } catch (error) {
+                console.error('Error obteniendo token reCAPTCHA:', error);
+                this.showAlert(error.message || 'Error de verificación. Por favor recarga la página.', 'error');
+                this.setLoading(false);
+            }
+        }
+
+        async sendInvite(username) {
+            this.setLoading(true);
+            this.clearAlerts();
+
+            try {
+                // API call to backend
+                const response = await fetch(`${CONFIG.BACKEND_URL}/invite`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        recaptchaToken: this.recaptchaToken
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    this.showSuccessModal(username);
+                    this.form.reset();
+                    this.hideUserPreview();
+                    this.currentUser = null;
+                    this.recaptchaToken = null;
+                } else {
+                    throw new Error(data.message || 'Error desconocido');
+                }
+            } catch (error) {
+                console.error('Error enviando invitación:', error);
+                this.showAlert(
+                    error.message || 'Hubo un error al enviar la invitación. Por favor intenta nuevamente.',
+                    'error'
+                );
+                this.recaptchaToken = null;
+            } finally {
+                this.setLoading(false);
+            }
+        }
+
+        showSuccessModal(username) {
+            const modal = document.getElementById('success-modal');
+            modal.classList.add('show');
+        }
+
+        closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('show');
+        }
+
+        setLoading(loading) {
+            if (loading) {
+                this.submitBtn.disabled = true;
+                this.submitBtn.classList.add('loading');
+                this.btnText.style.opacity = '0';
+            } else {
+                this.submitBtn.disabled = false;
+                this.submitBtn.classList.remove('loading');
+                this.btnText.style.opacity = '1';
+            }
+        }
+
+        showAlert(message, type = 'info') {
+            this.clearAlerts();
+
+            const alert = document.createElement('div');
+            alert.className = `alert ${type}`;
+            alert.textContent = message;
+
+            this.alertContainer.appendChild(alert);
+
+            // Auto-hide success messages after 5 seconds
+            if (type === 'success') {
+                setTimeout(() => {
+                    if (alert.parentNode) {
+                        alert.remove();
+                    }
+                }, 5000);
+            }
+        }
+
+        clearAlerts() {
+            this.alertContainer.innerHTML = '';
+        }
+    }
+
+    // Global function to close modals
+    function closeModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.classList.remove('show');
+        }
+    }
+
+    // Inicializar la aplicación cuando el DOM esté listo
+    document.addEventListener('DOMContentLoaded', async () => {
+        console.log('🚀 Iniciando MeshChile GitHub Invite App...');
+
+        window.githubApp = new GitHubInviteApp();
+
+        // Inicializar particles después de un pequeño delay
+        setTimeout(initParticles, 100);
+    });
+</script>
+
+</body>
+</html>
+

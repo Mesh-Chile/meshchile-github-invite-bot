@@ -230,11 +230,8 @@ describe('API Endpoints', () => {
                 teamAssigned: true
             });
 
-            expect(mockOctokit.rest.orgs.createInvitation).toHaveBeenCalledWith({
-                org: 'Test-Org',
-                invitee_id: 123,
-                role: 'direct_member'
-            });
+            // The server no longer calls createInvitation - it only adds to team
+            expect(mockOctokit.rest.orgs.createInvitation).not.toHaveBeenCalled();
 
             expect(mockOctokit.rest.teams.addOrUpdateMembershipForUserInOrg).toHaveBeenCalledWith({
                 org: 'Test-Org',

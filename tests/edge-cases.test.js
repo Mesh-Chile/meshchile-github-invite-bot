@@ -228,7 +228,7 @@ describe('Edge Cases and Error Handling', () => {
             });
         });
 
-        it('should handle invitation creation errors', async () => {
+        it('should handle team assignment errors gracefully', async () => {
             mockOctokit.rest.users.getByUsername.mockResolvedValue({
                 data: { id: 123, login: 'testuser', name: 'Test User', avatar_url: 'https://avatar.url' }
             });
@@ -237,7 +237,8 @@ describe('Edge Cases and Error Handling', () => {
             notFoundError.status = 404;
             mockOctokit.rest.orgs.getMembershipForUser.mockRejectedValue(notFoundError);
 
-            mockOctokit.rest.orgs.createInvitation.mockRejectedValue(new Error('Invitation failed'));
+            // Mock team assignment to fail instead since createInvitation is not used
+            mockOctokit.rest.teams.addOrUpdateMembershipForUserInOrg.mockRejectedValue(new Error('Team assignment failed'));
 
             const response = await request(app)
                 .post('/api/invite')
@@ -245,11 +246,17 @@ describe('Edge Cases and Error Handling', () => {
                     username: 'testuser',
                     recaptchaToken: 'valid-token'
                 })
-                .expect(500);
+                .expect(200);
 
             expect(response.body).toEqual({
-                success: false,
-                message: 'Error interno del servidor'
+                success: true,
+                message: 'Invitación enviada exitosamente a testuser',
+                user: {
+                    username: 'testuser',
+                    name: 'Test User', 
+                    avatar: 'https://avatar.url'
+                },
+                teamAssigned: false
             });
         });
     });

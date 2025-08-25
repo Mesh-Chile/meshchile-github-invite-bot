@@ -140,7 +140,10 @@ jobs:
         COLLABORATORS_TEAM: test-colaboradores
         WELCOME_REPO: test-bienvenidos
         RECAPTCHA_SECRET_KEY: test_secret
+        RECAPTCHA_SITE_KEY: test_site_key
         ADMIN_KEY: test_admin_key
+        GITHUB_WEBHOOK_SECRET: test_webhook_secret
+        TRUST_PROXY: loopback
 
     - name: Run integration tests
       run: |
@@ -207,6 +210,9 @@ jobs:
           -e NODE_ENV=test \
           -e GITHUB_TOKEN=fake_token \
           -e GITHUB_ORG=test-org \
+          -e RECAPTCHA_SECRET_KEY=test_secret \
+          -e RECAPTCHA_SITE_KEY=test_site_key \
+          -e ADMIN_KEY=test_admin_key \
           -p 3000:3000 \
           meshchile-bot:test
         
@@ -245,6 +251,9 @@ jobs:
       env:
         NODE_ENV: test
         GITHUB_TOKEN: fake_token_for_testing
+        RECAPTCHA_SECRET_KEY: test_secret
+        RECAPTCHA_SITE_KEY: test_site_key
+        ADMIN_KEY: test_admin_key
 
     - name: Install Artillery (if not present)
       run: |
@@ -286,6 +295,9 @@ jobs:
       env:
         NODE_ENV: test
         GITHUB_TOKEN: fake_token_for_testing
+        RECAPTCHA_SECRET_KEY: test_secret
+        RECAPTCHA_SITE_KEY: test_site_key
+        ADMIN_KEY: test_admin_key
 
     - name: Install Pa11y
       run: npm install -g pa11y

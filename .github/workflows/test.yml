@@ -132,7 +132,7 @@ jobs:
           exit 1
         }
       env:
-        NODE_ENV: test
+        NODE_ENV: integration
         PORT: 3000
         GITHUB_TOKEN: fake_token_for_testing
         GITHUB_ORG: test-org
@@ -208,7 +208,7 @@ jobs:
     - name: Test Docker container
       run: |
         docker run -d --name test-container \
-          -e NODE_ENV=test \
+          -e NODE_ENV=integration \
           -e GITHUB_TOKEN=fake_token \
           -e GITHUB_ORG=test-org \
           -e RECAPTCHA_SECRET_KEY=test_secret \
@@ -250,7 +250,7 @@ jobs:
         npm start &
         sleep 5
       env:
-        NODE_ENV: test
+        NODE_ENV: integration
         GITHUB_TOKEN: fake_token_for_testing
         RECAPTCHA_SECRET_KEY: test_secret
         RECAPTCHA_SITE_KEY: test_site_key
@@ -294,7 +294,7 @@ jobs:
         npm start &
         sleep 5
       env:
-        NODE_ENV: test
+        NODE_ENV: integration
         GITHUB_TOKEN: fake_token_for_testing
         RECAPTCHA_SECRET_KEY: test_secret
         RECAPTCHA_SITE_KEY: test_site_key

@@ -109,14 +109,38 @@ jobs:
 
     - name: Start server for integration tests
       run: |
+        # Start server in background
         npm start &
-        sleep 5
-        curl -f http://localhost:3000/api/bot/status || exit 1
+        SERVER_PID=$!
+        echo "Server PID: $SERVER_PID"
+        
+        # Wait for server to start with retry logic
+        for i in {1..30}; do
+          if curl -s http://localhost:3000/api/bot/status > /dev/null 2>&1; then
+            echo "Server is ready!"
+            break
+          fi
+          echo "Waiting for server... ($i/30)"
+          sleep 2
+        done
+        
+        # Final check
+        curl -f http://localhost:3000/api/bot/status || {
+          echo "Server failed to start. Checking logs..."
+          ps aux | grep node
+          kill $SERVER_PID 2>/dev/null || true
+          exit 1
+        }
       env:
         NODE_ENV: test
         PORT: 3000
         GITHUB_TOKEN: fake_token_for_testing
         GITHUB_ORG: test-org
+        COMMUNITY_TEAM: test-comunidad
+        COLLABORATORS_TEAM: test-colaboradores
+        WELCOME_REPO: test-bienvenidos
+        RECAPTCHA_SECRET_KEY: test_secret
+        ADMIN_KEY: test_admin_key
 
     - name: Run integration tests
       run: |

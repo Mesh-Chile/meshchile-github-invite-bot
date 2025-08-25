@@ -20,7 +20,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
@@ -47,7 +47,7 @@ jobs:
 
     - name: Build and push Docker image
       id: build
-      uses: docker/build-push-action@v5
+      uses: docker/build-push-action@v6.18.0
       with:
         context: .
         file: ./docker/Dockerfile
@@ -59,7 +59,7 @@ jobs:
         cache-to: type=gha,mode=max
 
     - name: Generate artifact attestation
-      uses: actions/attest-build-provenance@v1
+      uses: actions/attest-build-provenance@v2.4.0
       with:
         subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}
         subject-digest: ${{ steps.build.outputs.digest }}

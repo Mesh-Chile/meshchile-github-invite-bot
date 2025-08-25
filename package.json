@@ -9,6 +9,7 @@
     "test": "jest --verbose",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
+    "lint": "eslint . --ext .js",
     "docker:dev": "cd docker && docker-compose -f docker-compose.dev.yml up --build",
     "docker:dev:detached": "cd docker && docker-compose -f docker-compose.dev.yml up --build -d",
     "docker:prod": "cd docker && docker-compose up -d",
@@ -28,29 +29,38 @@
   "author": "Raztor",
   "license": "AGPL-3.0",
   "dependencies": {
-    "express": "^4.18.2",
     "@octokit/rest": "^20.0.2",
+    "axios": "^1.6.2",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
-    "express-rate-limit": "^7.1.5",
-    "axios": "^1.6.2"
+    "express": "^4.18.2",
+    "express-rate-limit": "^7.1.5"
   },
   "devDependencies": {
-    "nodemon": "^3.0.2",
+    "@jest/globals": "^29.7.0",
+    "eslint": "^9.34.0",
     "jest": "^29.7.0",
-    "supertest": "^6.3.3",
-    "@jest/globals": "^29.7.0"
+    "nodemon": "^3.0.2",
+    "supertest": "^6.3.3"
   },
   "jest": {
     "testEnvironment": "node",
-    "setupFilesAfterEnv": ["<rootDir>/tests/setup.js"],
-    "testMatch": ["<rootDir>/tests/**/*.test.js"],
+    "setupFilesAfterEnv": [
+      "<rootDir>/tests/setup.js"
+    ],
+    "testMatch": [
+      "<rootDir>/tests/**/*.test.js"
+    ],
     "collectCoverageFrom": [
       "server.js",
       "!node_modules/**"
     ],
     "coverageDirectory": "coverage",
-    "coverageReporters": ["text", "lcov", "html"]
+    "coverageReporters": [
+      "text",
+      "lcov",
+      "html"
+    ]
   },
   "engines": {
     "node": ">=16.0.0"

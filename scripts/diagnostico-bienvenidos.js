@@ -23,7 +23,7 @@ async function diagnosticoBienvenidos() {
         auth: process.env.GITHUB_TOKEN
     });
 
-    console.log(`📋 Configuración:`);
+    console.log('📋 Configuración:');
     console.log(`   • Organización: ${GITHUB_ORG}`);
     console.log(`   • Repositorio: ${WELCOME_REPO}`);
     console.log(`   • Token: ${process.env.GITHUB_TOKEN ? '✅ Configurado' : '❌ No configurado'}`);
@@ -112,7 +112,7 @@ async function diagnosticoBienvenidos() {
                     issue_number: testIssue.data.number,
                     state: 'closed'
                 });
-                console.log(`   ✅ Issue cerrado automáticamente`);
+                console.log('   ✅ Issue cerrado automáticamente');
             } catch (closeError) {
                 console.log(`   ⚠️  No se pudo cerrar el issue: ${closeError.message}`);
             }

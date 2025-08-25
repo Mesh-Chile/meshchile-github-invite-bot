@@ -64,7 +64,7 @@ class WebhookUtils {
             return { success: true, status: response.status, delivery };
 
         } catch (error) {
-            console.error(`❌ Error enviando webhook:`, error.message);
+            console.error('❌ Error enviando webhook:', error.message);
             if (error.response) {
                 console.error(`Status: ${error.response.status}`);
                 console.error(`Response: ${JSON.stringify(error.response.data, null, 2)}`);

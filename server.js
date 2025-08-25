@@ -273,13 +273,6 @@ app.post('/api/invite', inviteLimiter, async (req, res) => {
             // 404 significa que no es miembro, continuar
         }
 
-        // Enviar invitación a la organización
-        const invitation = await octokit.rest.orgs.createInvitation({
-            org: GITHUB_ORG,
-            invitee_id: githubUser.id,
-            role: 'direct_member'
-        });
-
         // Intentar añadir al equipo Comunidad
         let teamAssignment = false;
         try {
@@ -409,41 +402,41 @@ async function handlePromotionEvent(event, payload) {
         let reason = '';
 
         switch (event) {
-            case 'repository':
-                // Usuario creó un nuevo repositorio en la organización
-                if (payload.action === 'created' && payload.repository.owner.login === GITHUB_ORG) {
-                    username = payload.sender.login;
-                    shouldPromote = true;
-                    reason = 'Creó repositorio';
-                }
-                break;
+        case 'repository':
+            // Usuario creó un nuevo repositorio en la organización
+            if (payload.action === 'created' && payload.repository.owner.login === GITHUB_ORG) {
+                username = payload.sender.login;
+                shouldPromote = true;
+                reason = 'Creó repositorio';
+            }
+            break;
 
-            case 'push':
-                // Usuario hizo push a un repositorio
-                if (payload.commits && payload.commits.length > 0 && payload.repository.owner.login === GITHUB_ORG) {
-                    username = payload.pusher.name || payload.sender.login;
-                    shouldPromote = true;
-                    reason = `Push con ${payload.commits.length} commits`;
-                }
-                break;
+        case 'push':
+            // Usuario hizo push a un repositorio
+            if (payload.commits && payload.commits.length > 0 && payload.repository.owner.login === GITHUB_ORG) {
+                username = payload.pusher.name || payload.sender.login;
+                shouldPromote = true;
+                reason = `Push con ${payload.commits.length} commits`;
+            }
+            break;
 
-            case 'pull_request':
-                // Usuario abrió un PR
-                if (payload.action === 'opened' && payload.repository.owner.login === GITHUB_ORG) {
-                    username = payload.pull_request.user.login;
-                    shouldPromote = true;
-                    reason = 'Abrió Pull Request';
-                }
-                break;
+        case 'pull_request':
+            // Usuario abrió un PR
+            if (payload.action === 'opened' && payload.repository.owner.login === GITHUB_ORG) {
+                username = payload.pull_request.user.login;
+                shouldPromote = true;
+                reason = 'Abrió Pull Request';
+            }
+            break;
 
-            case 'issues':
-                // Usuario creó un issue
-                if (payload.action === 'opened' && payload.repository.owner.login === GITHUB_ORG) {
-                    username = payload.issue.user.login;
-                    shouldPromote = true;
-                    reason = 'Creó Issue';
-                }
-                break;
+        case 'issues':
+            // Usuario creó un issue
+            if (payload.action === 'opened' && payload.repository.owner.login === GITHUB_ORG) {
+                username = payload.issue.user.login;
+                shouldPromote = true;
+                reason = 'Creó Issue';
+            }
+            break;
         }
 
         if (shouldPromote && username) {
@@ -645,6 +638,8 @@ app.get('/api/stats', async (req, res) => {
 // MIDDLEWARE DE MANEJO DE ERRORES
 // =====================================
 
+// Error handler middleware - DEBE tener 4 parámetros
+// eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
     console.error('❌ Error no manejado:', err);
     
@@ -679,8 +674,8 @@ const PORT = process.env.PORT || 3000;
 // Solo iniciar servidor si no estamos en modo test
 if (process.env.NODE_ENV !== 'test') {
     app.listen(PORT, () => {
-    const isDev = process.env.NODE_ENV === 'development';
-    console.log(`
+        const isDev = process.env.NODE_ENV === 'development';
+        console.log(`
 🚀 Servidor MeshChile ejecutándose en puerto ${PORT}
 📡 Bot de promoción automática: ACTIVO
 🛡️  Rate limiting: ${isDev ? 'RELAJADO (DEV)' : 'ACTIVO (PROD)'}
@@ -708,3 +703,4 @@ process.on('SIGTERM', () => {
     console.log('\n🛑 Señal SIGTERM recibida, cerrando servidor...');
     process.exit(0);
 });
+

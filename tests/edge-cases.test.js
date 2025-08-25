@@ -1,5 +1,4 @@
 const request = require('supertest');
-const crypto = require('crypto');
 
 // Mock Octokit
 const mockOctokit = {

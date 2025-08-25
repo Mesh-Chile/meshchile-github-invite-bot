@@ -58,7 +58,7 @@ async function testPushEvent(username, commitCount = 3, repoName = null) {
     console.log(`📦 Repositorio: ${payload.repository.full_name}`);
     console.log(`👤 Usuario: ${username}`);
     console.log(`📝 Commits: ${commitCount}`);
-    console.log(`🌿 Branch: main`);
+    console.log('🌿 Branch: main');
     console.log('');
 
     const result = await webhookUtils.sendWebhook('push', payload);

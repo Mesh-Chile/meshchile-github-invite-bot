@@ -16,7 +16,7 @@ const app = express();
 
 // Rate limiter específico para invitaciones (más restrictivo)
 const inviteLimiter = rateLimit({
-    windowMs: process.env.NODE_ENV === 'test' ? 1000 : (process.env.NODE_ENV === 'development' ? 1 * 60 * 1000 : 15 * 60 * 1000), // 1s en test, 1 min en dev, 15 min en prod
+    windowMs: process.env.NODE_ENV === 'test' ? 1000 : (process.env.NODE_ENV === 'development' ? 60 * 1000 : 15 * 60 * 1000), // 1s en test, 1 min en dev, 15 min en prod
     max: process.env.NODE_ENV === 'test' ? 1000 : (process.env.NODE_ENV === 'development' ? 100 : 3), // 1000 en test, 100 en dev, 3 en prod
     message: {
         success: false,
@@ -35,7 +35,7 @@ const inviteLimiter = rateLimit({
 
 // Rate limiter general más permisivo
 const generalLimiter = rateLimit({
-    windowMs: 1 * 60 * 1000, // 1 minuto
+    windowMs: 60 * 1000, // 1 minuto
     max: process.env.NODE_ENV === 'test' ? 10000 : (process.env.NODE_ENV === 'development' ? 1000 : 20), // 10000 en test, 1000 en dev, 20 en prod
     message: {
         success: false,
@@ -45,7 +45,7 @@ const generalLimiter = rateLimit({
 
 // Rate limiter para verificación de usuarios
 const userVerificationLimiter = rateLimit({
-    windowMs: 1 * 60 * 1000, // 1 minuto
+    windowMs: 60 * 1000, // 1 minuto
     max: process.env.NODE_ENV === 'test' ? 10000 : (process.env.NODE_ENV === 'development' ? 1000 : 10), // 10000 en test, 1000 en dev, 10 en prod
     message: {
         error: 'Demasiadas verificaciones de usuario. Intenta más tarde.'

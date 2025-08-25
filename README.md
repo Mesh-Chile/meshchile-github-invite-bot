@@ -221,8 +221,54 @@ meshchile-github-bot/
 ```
 
 ## 🚀 Despliegue
+### 🐳 Docker
 
-### Opción 1: Railway (Recomendado)
+#### Estructura organizada
+```
+docker/
+├── Dockerfile              # Imagen optimizada
+├── docker-compose.yml      # Producción (registry)
+├── docker-compose.dev.yml  # Desarrollo (build local)
+└── README.md              # Documentación Docker
+```
+
+#### Uso rápido desde el root del proyecto
+
+**Desarrollo:**
+```bash
+npm run docker:dev          # Build y ejecutar en foreground
+npm run docker:dev:detached # Build y ejecutar en background
+```
+
+**Producción:**
+```bash
+npm run docker:prod         # Usar imagen del registry
+```
+
+**Gestión:**
+```bash
+npm run docker:stop         # Parar contenedores
+npm run docker:logs         # Ver logs en tiempo real
+npm run docker:rebuild      # Rebuild completo desde cero
+```
+
+#### Manual (desde directorio docker/)
+```bash
+cd docker
+
+# Desarrollo
+docker-compose -f docker-compose.dev.yml up --build
+
+# Producción
+docker-compose up -d
+```
+
+#### Imagen en GitHub Container Registry
+- **Registry**: `ghcr.io/mesh-chile/meshchile-github-invite-bot`
+- **Build automático**: GitHub Actions en push a main/develop
+- **Multi-arch**: linux/amd64, linux/arm64
+  
+### Opción 2: Railway (Recomendado)
 ```bash
 npm install -g @railway/cli
 railway login
@@ -230,12 +276,12 @@ railway link
 railway up
 ```
 
-### Opción 2: Render
+### Opción 3: Render
 1. Conectar repositorio en Render.com
 2. Configurar variables de entorno en el panel
 3. Deploy automático
 
-### Opción 3: Heroku
+### Opción 4: Heroku
 ```bash
 heroku create meshchile-github-bot
 heroku config:set GITHUB_TOKEN=tu_token
@@ -245,7 +291,7 @@ heroku config:set RECAPTCHA_SECRET_KEY=tu_secret
 git push heroku main
 ```
 
-### Opción 4: VPS/Servidor propio
+### Opción 5: VPS/Servidor propio
 ```bash
 # Usar PM2 para proceso en background
 npm install -g pm2
@@ -337,50 +383,3 @@ GNU Affero General Public License v3 License - ver archivo [License](./LICENSE) 
 ---
 
 **Desarrollado con ❤️ por [Raztor](https://github.com/raztor) para la comunidad [MeshChile](https://links.meshchile.cl)**
-
-## 🐳 Docker
-
-### Estructura organizada
-```
-docker/
-├── Dockerfile              # Imagen optimizada
-├── docker-compose.yml      # Producción (registry)
-├── docker-compose.dev.yml  # Desarrollo (build local)
-└── README.md              # Documentación Docker
-```
-
-### Uso rápido desde el root del proyecto
-
-**Desarrollo:**
-```bash
-npm run docker:dev          # Build y ejecutar en foreground
-npm run docker:dev:detached # Build y ejecutar en background
-```
-
-**Producción:**
-```bash
-npm run docker:prod         # Usar imagen del registry
-```
-
-**Gestión:**
-```bash
-npm run docker:stop         # Parar contenedores
-npm run docker:logs         # Ver logs en tiempo real
-npm run docker:rebuild      # Rebuild completo desde cero
-```
-
-### Manual (desde directorio docker/)
-```bash
-cd docker
-
-# Desarrollo
-docker-compose -f docker-compose.dev.yml up --build
-
-# Producción
-docker-compose up -d
-```
-
-### Imagen en GitHub Container Registry
-- **Registry**: `ghcr.io/mesh-chile/meshchile-github-invite-bot`
-- **Build automático**: GitHub Actions en push a main/develop
-- **Multi-arch**: linux/amd64, linux/arm64
